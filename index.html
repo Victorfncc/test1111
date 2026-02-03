@@ -1,0 +1,2580 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TikTok Shop - Checkout Mobile</title>
+
+    <!-- TikTok Pixel Code Start (MANTIDO IGUAL) -->
+    <script>
+    !function(w,d,t){
+      w.TiktokAnalyticsObject=t;
+      var ttq=w[t]=w[t]||[];
+      ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
+      ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+      for(var i=0;i<ttq.methods.length;i++){ttq.setAndDefer(ttq,ttq.methods[i])}
+      ttq.instance=function(t){return ttq._i[t]||[]};
+      ttq.load=function(e,n){
+        var r="https://analytics.tiktok.com/i18n/pixel/events.js";
+        ttq._i=ttq._i||{}; ttq._i[e]=[]; ttq._i[e]._u=r;
+        ttq._t=ttq._t||{}; ttq._t[e]=+new Date();
+        ttq._o=ttq._o||{}; ttq._o[e]=n||{};
+        var s=document.createElement("script"); s.type="text/javascript"; s.async=true; s.src=r+"?sdkid="+e+"&lib="+t;
+        var a=document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s,a);
+      };
+      ttq.load('D5VC63RC77UECCBSI7PG');
+      ttq.page();
+    }(window,document,'ttq');
+    </script>
+    <!-- TikTok Pixel Code End -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- STYLE (MANTIDO EXATAMENTE IGUAL) -->
+    <style>
+        /* ===== VARIÁVEIS MOBILE-FIRST ===== */
+        :root {
+            --tiktok-pink: #fe2c55;
+            --tiktok-dark: #000000;
+            --tiktok-light: #ff375f;
+            --text-dark: #000000;
+            --text-medium: #666666;
+            --text-light: #999999;
+            --bg-light: #ffffff;
+            --border-color: #e9ecef;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.2s ease;
+            --safe-area: env(safe-area-inset-bottom, 0px);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            font-size: 14px;
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.5;
+            padding-top: 50px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 100%;
+            padding: 0 16px;
+            margin: 0 auto;
+        }
+        
+        /* ===== HEADER MOBILE ===== */
+        .checkout-header {
+            background-color: white;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            height: 50px;
+        }
+        
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .logo {
+            height: 46px;
+            width: auto;
+            max-width: 200px;
+        }
+        
+        /* ===== STEPS MOBILE ===== */
+        .checkout-steps {
+            margin: 10px 0 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-progress {
+            height: 3px;
+            background-color: var(--border-color);
+            border-radius: 2px;
+            margin: 0 20px 20px;
+            position: relative;
+        }
+        
+        .progress-bar {
+            position: absolute;
+            height: 100%;
+            background-color: var(--tiktok-pink);
+            border-radius: 2px;
+            width: 25%;
+            transition: var(--transition);
+        }
+        
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            padding: 0 10px;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            width: 25%;
+            padding: 0 5px;
+        }
+        
+        .step-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+            transition: var(--transition);
+        }
+        
+        .step.active .step-number {
+            background-color: var(--tiktok-pink);
+            border-color: var(--tiktok-pink);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 3px 8px rgba(254, 44, 85, 0.3);
+        }
+        
+        .step.completed .step-number {
+            background-color: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+        
+        .step-info {
+            text-align: center;
+            width: 100%;
+        }
+        
+        .step-title {
+            display: block;
+            font-weight: 600;
+            font-size: 12px;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .step-subtitle {
+            display: block;
+            font-size: 10px;
+            color: var(--text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* ===== LAYOUT MOBILE ===== */
+        .checkout-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 0 0 20px 0;
+        }
+        
+        /* REORDENAÇÃO PARA MOBILE */
+        .steps-section {
+            order: 1;
+        }
+        
+        .order-summary-section {
+            order: 2;
+            margin-bottom: 20px;
+        }
+        
+        .forms-section {
+            order: 3;
+        }
+        
+        /* ===== FORMULÁRIOS MOBILE ===== */
+        .checkout-form {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            margin-bottom: 12px;
+            animation: fadeIn 0.3s ease-out;
+            border: 1px solid #f0f0f0;
+            width: 100%;
+        }
+        
+        .checkout-form.hidden {
+            display: none;
+        }
+        
+        .form-header {
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        
+        .form-header h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+        
+        .form-header p {
+            color: var(--text-medium);
+            font-size: 14px;
+        }
+        
+        .form-body {
+            margin-bottom: 15px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        .form-group.full-width {
+            width: 100%;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: white;
+            font-family: 'Inter', sans-serif;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--tiktok-pink);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(254, 44, 85, 0.1);
+        }
+        
+        .form-group input.error {
+            border-color: var(--danger);
+        }
+        
+        .error-message {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 6px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .input-with-button {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+        
+        .input-with-button input {
+            flex: 1;
+        }
+        
+        .form-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #f8f9fa;
+        }
+        
+        /* ===== OPÇÕES DE FRETE ===== */
+        .shipping-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .shipping-option {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            background: white;
+            min-height: 80px;
+        }
+        
+        .shipping-option:active {
+            border-color: var(--tiktok-pink);
+            background-color: rgba(254, 44, 85, 0.05);
+            transform: translateY(-1px);
+        }
+        
+        .shipping-option.selected {
+            border-color: var(--tiktok-pink);
+            background-color: rgba(254, 44, 85, 0.1);
+            box-shadow: 0 3px 8px rgba(254, 44, 85, 0.15);
+        }
+        
+        .shipping-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, var(--tiktok-pink), var(--tiktok-light));
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        
+        .shipping-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .shipping-info h4 {
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+        
+        .shipping-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 6px;
+        }
+        
+        .shipping-price {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-dark);
+        }
+        
+        .shipping-price.free {
+            color: var(--success);
+        }
+        
+        .shipping-time {
+            color: var(--text-medium);
+            font-size: 13px;
+        }
+        
+        .shipping-radio {
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+        
+        .shipping-radio input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--tiktok-pink);
+        }
+        
+        /* ===== PIX PAYMENT SECTION ===== */
+        .pix-payment-section {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: var(--radius);
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+        
+        .pix-instructions {
+            margin-bottom: 25px;
+        }
+        
+        .pix-instructions h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        
+        .pix-instructions p {
+            color: var(--text-medium);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .pix-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .pix-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        
+        .pix-step-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--tiktok-pink), var(--tiktok-light));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .pix-step-text {
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+        
+        .qrcode-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            min-height: 200px;
+        }
+        
+        #qrcode {
+            width: 220px;
+            height: 220px;
+            border: 10px solid white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .pix-copy-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .pix-key-label {
+            font-size: 12px;
+            color: var(--text-medium);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .pix-key-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            word-break: break-all;
+            margin-bottom: 15px;
+            font-family: monospace;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px dashed #ccc;
+        }
+        
+        .btn-copy-pix {
+            background: linear-gradient(135deg, var(--tiktok-pink), var(--tiktok-light));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .btn-copy-pix:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(254, 44, 85, 0.3);
+        }
+        
+        .payment-confirmation {
+            text-align: center;
+            padding: 25px;
+            background: white;
+            border-radius: var(--radius);
+            margin: 20px 0;
+            border: 2px solid #f0f0f0;
+        }
+        
+        .payment-confirmation i {
+            font-size: 48px;
+            color: var(--success);
+            margin-bottom: 15px;
+        }
+        
+        .payment-confirmation h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        
+        .payment-confirmation p {
+            color: var(--text-medium);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* ===== BOTÕES MOBILE ===== */
+        .btn {
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+            min-height: 52px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--tiktok-pink), var(--tiktok-light));
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .btn-primary:hover,
+        .btn-primary:active {
+            background: linear-gradient(135deg, #e4254c, #ff2a57);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(254, 44, 85, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover,
+        .btn-secondary:active {
+            background-color: #5a6268;
+        }
+        
+        .btn-back {
+            background-color: transparent;
+            color: var(--text-medium);
+            border: 2px solid var(--border-color);
+            font-weight: 600;
+            order: 2;
+        }
+        
+        .btn-back:hover,
+        .btn-back:active {
+            background-color: #f8f9fa;
+            border-color: var(--tiktok-pink);
+            color: var(--tiktok-pink);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #20c997);
+            color: white;
+            font-weight: 700;
+        }
+        
+        .btn-success:hover,
+        .btn-success:active {
+            background: linear-gradient(135deg, #218838, #1e7e34);
+        }
+        
+        .btn-paid {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            font-weight: 700;
+            margin-top: 20px;
+        }
+        
+        /* ===== MÉTODOS DE PAGAMENTO MOBILE ===== */
+        .payment-methods-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .payment-method-option {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            background: white;
+            min-height: 80px;
+        }
+        
+        .payment-method-option:active {
+            border-color: var(--tiktok-pink);
+            background-color: rgba(254, 44, 85, 0.05);
+            transform: translateY(-1px);
+        }
+        
+        .payment-method-option.active {
+            border-color: var(--tiktok-pink);
+            background-color: rgba(254, 44, 85, 0.1);
+            box-shadow: 0 3px 8px rgba(254, 44, 85, 0.15);
+        }
+        
+        .payment-method-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--tiktok-pink), var(--tiktok-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .payment-method-icon i {
+            color: white;
+            font-size: 22px;
+        }
+        
+        .payment-method-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .payment-method-info h4 {
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+        
+        .payment-method-info p {
+            color: var(--text-medium);
+            font-size: 13px;
+            line-height: 1.3;
+        }
+        
+        .payment-method-radio {
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+        
+        .payment-method-radio input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--tiktok-pink);
+        }
+        
+        .payment-details {
+            display: none;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+            border: 2px solid #f0f0f0;
+        }
+        
+        .payment-details.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .pix-benefits {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        
+        .benefit:active {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            border-color: var(--tiktok-pink);
+        }
+        
+        .benefit i {
+            color: var(--tiktok-pink);
+            font-size: 20px;
+            width: 24px;
+        }
+        
+        .benefit span {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        /* ===== RESUMO DO PEDIDO MOBILE ===== */
+        .order-summary-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            border: 1px solid #f0f0f0;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        
+        .summary-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        
+        .items-count {
+            background: linear-gradient(135deg, var(--tiktok-pink), var(--tiktok-light));
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        
+        .product-item {
+            display: grid;
+            grid-template-columns: 70px 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f8f9fa;
+            align-items: start;
+        }
+        
+        .product-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-details h4 {
+            font-size: 15px;
+            margin-bottom: 6px;
+            line-height: 1.4;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .product-stock {
+            color: var(--tiktok-pink);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .product-stock:before {
+            content: '⚠️';
+            font-size: 12px;
+        }
+        
+        .product-quantity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        
+        .qty-btn:active {
+            background-color: var(--tiktok-pink);
+            border-color: var(--tiktok-pink);
+            color: white;
+        }
+        
+        .qty-input {
+            width: 50px;
+            height: 32px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .product-price {
+            grid-column: 1 / -1;
+            text-align: left;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .product-price .price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        
+        .summary-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 20px 0;
+        }
+        
+        .summary-calculations {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .calculation-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+        
+        .calculation-row.total {
+            font-size: 20px;
+            font-weight: 800;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 2px solid var(--border-color);
+            color: var(--text-dark);
+        }
+        
+        .calculation-row.discount {
+            color: var(--success);
+            font-weight: 600;
+            display: none;
+        }
+        
+        .security-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .security-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        
+        .security-item i {
+            color: var(--tiktok-pink);
+            font-size: 16px;
+            width: 20px;
+            flex-shrink: 0;
+        }
+        
+        .coupon-section {
+            margin-top: 20px;
+        }
+        
+        .coupon-input {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+        
+        .coupon-input input {
+            flex: 1;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 15px;
+            width: 100%;
+        }
+        
+        .btn-coupon {
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            width: 100%;
+        }
+        
+        .btn-coupon:active {
+            background: linear-gradient(135deg, #495057, #343a40);
+        }
+        
+        .coupon-feedback {
+            margin-top: 8px;
+            font-size: 13px;
+            min-height: 18px;
+            font-weight: 500;
+        }
+        
+        /* ===== FOOTER MOBILE ===== */
+        .checkout-footer {
+            background: white;
+            padding: 15px 0;
+            border-top: 1px solid var(--border-color);
+            position: static;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .payment-methods-footer {
+            text-align: center;
+            width: 100%;
+        }
+        
+        .payment-methods-footer span {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .payment-icons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .payment-icons i {
+            font-size: 24px;
+            color: #666;
+            transition: var(--transition);
+        }
+        
+        .copyright {
+            color: var(--text-medium);
+            font-size: 11px;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        /* ===== ANIMAÇÕES ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+        
+        /* ===== MEDIA QUERIES PARA TABLET E DESKTOP ===== */
+        @media (min-width: 768px) {
+            html {
+                font-size: 16px;
+            }
+            
+            .mobile-only {
+                display: none;
+            }
+            
+            .desktop-only {
+                display: block;
+            }
+            
+            .container {
+                max-width: 720px;
+                padding: 0 20px;
+            }
+            
+            .checkout-header {
+                padding: 15px 0;
+                position: fixed;
+                top: 0;
+                height: 60px;
+            }
+            
+            body {
+                padding-top: 60px;
+                padding-bottom: 0;
+            }
+            
+            .checkout-wrapper {
+                flex-direction: row;
+                gap: 30px;
+                margin-top: 0;
+            }
+            
+            .forms-section {
+                flex: 1;
+                order: 1;
+            }
+            
+            .order-summary-section {
+                width: 350px;
+                order: 2;
+                position: sticky;
+                top: 80px;
+                height: fit-content;
+                margin-bottom: 0;
+            }
+            
+            .steps-section {
+                order: 0;
+            }
+            
+            .checkout-footer {
+                position: relative;
+                margin-top: 40px;
+                box-shadow: none;
+                background: #f8f9fa;
+                padding: 20px 0;
+            }
+            
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .payment-methods-footer {
+                text-align: left;
+                width: auto;
+            }
+            
+            .copyright {
+                text-align: right;
+                width: auto;
+            }
+            
+            .input-with-button {
+                flex-direction: row;
+            }
+            
+            .form-row {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .form-group {
+                flex: 1;
+                min-width: 200px;
+            }
+            
+            .form-footer {
+                flex-direction: row;
+            }
+            
+            .btn {
+                width: auto;
+            }
+            
+            .btn-back {
+                order: 0;
+            }
+            
+            .coupon-input {
+                flex-direction: row;
+            }
+            
+            .shipping-options {
+                flex-direction: column;
+            }
+            
+            .pix-benefits {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .pix-steps {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .pix-step {
+                flex: 1;
+                min-width: 200px;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .container {
+                max-width: 960px;
+            }
+            
+            .order-summary-section {
+                width: 400px;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+        }
+        
+        /* ===== AJUSTES PARA iOS ===== */
+        @supports (-webkit-touch-callout: none) {
+            .btn {
+                min-height: 44px;
+            }
+            
+            input, select, textarea, button {
+                font-size: 16px;
+            }
+            
+            .qty-input {
+                font-size: 16px;
+            }
+        }
+        
+        /* ===== SCROLL SUAVE ===== */
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        /* ===== PLACEHOLDER STYLING ===== */
+        ::placeholder {
+            color: #aaa;
+            opacity: 1;
+        }
+        
+        :-ms-input-placeholder {
+            color: #aaa;
+        }
+        
+        ::-ms-input-placeholder {
+            color: #aaa;
+        }
+        
+        /* ===== SELECT STYLING ===== */
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+            padding-right: 40px;
+        }
+        
+        /* ===== LOADING STATE ===== */
+        .loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid rgba(254, 44, 85, 0.3);
+            border-top-color: var(--tiktok-pink);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* ===== TOUCH-FRIENDLY CHECKBOX/RADIO ===== */
+        input[type="radio"],
+        input[type="checkbox"] {
+            min-width: 20px;
+            min-height: 20px;
+        }
+        
+        /* ===== HIDE NUMBER INPUT SPINNERS ===== */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        
+        /* ===== ANIMAÇÃO SHAKE ===== */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        /* ===== TOAST MOBILE ===== */
+        .toast-mobile {
+            position: fixed;
+            bottom: 100px;
+            left: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 10000;
+            animation: slideIn 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* ===== SUCCESS MESSAGE ===== */
+        .success-message {
+            background: white;
+            padding: 25px;
+            border-radius: var(--radius);
+            text-align: center;
+            margin: 20px 0;
+            border: 2px solid #d4edda;
+            box-shadow: var(--shadow);
+        }
+        
+        .success-message i {
+            font-size: 48px;
+            color: var(--success);
+            margin-bottom: 15px;
+        }
+        
+        .success-message h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--success);
+        }
+        
+        .success-message p {
+            color: var(--text-medium);
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .success-message .order-id {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+        
+        /* ===== LOADING SPINNER ===== */
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--tiktok-pink);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        /* ===== HIDDEN ===== */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER MOBILE - FIXO NO TOPO -->
+    <header class="checkout-header">
+        <div class="container header-container">
+            <div class="logo-section">
+                <img src="https://cloudfox-digital-products.s3.amazonaws.com/uploads/user/Qa9ArZMQMWZ7xjE/public/stores/a6pVgdomr6Gk7BW/logo/MeNmNpp1EkiWPOWXuccjU8NpUeRqI51gqaYqFKoZ.png" 
+                     alt="TikTok Shop" class="logo">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- STEPS DE NAVEGAÇÃO - AGORA COM 4 PASSOS -->
+        <div class="steps-section">
+            <div class="checkout-steps">
+                <div class="step-progress">
+                    <div class="progress-bar" id="step-progress-bar" style="width: 25%"></div>
+                </div>
+                
+                <div class="steps-container">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-info">
+                            <span class="step-title">Dados</span>
+                            <span class="step-subtitle">Pessoais</span>
+                        </div>
+                    </div>
+                    
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-info">
+                            <span class="step-title">Endereço</span>
+                            <span class="step-subtitle">Entrega</span>
+                        </div>
+                    </div>
+                    
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-info">
+                            <span class="step-title">Frete</span>
+                            <span class="step-subtitle">Escolha</span>
+                        </div>
+                    </div>
+                    
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-info">
+                            <span class="step-title">Pagamento</span>
+                            <span class="step-subtitle">PIX</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="checkout-wrapper">
+            <!-- RESUMO DO PEDIDO -->
+            <aside class="order-summary-section">
+                <div class="order-summary-card">
+                    <div class="summary-header">
+                        <h3>Resumo</h3>
+                        <span class="items-count" id="items-count">1 item</span>
+                    </div>
+                    
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img src="https://cloudfox-digital-products.s3.amazonaws.com/uploads/public/products/UrFqna53OwBrUdJCpuJQ3S0jOXXGdCSSas6tPpyS.png" 
+                                 alt="Console PS5">
+                        </div>
+                        <div class="product-details">
+                            <h4>Console PS5 Slim 1TB com leitor de disco Branco</h4>
+                            <p class="product-stock">Últimas 9 unidades</p>
+                            
+                            <div class="product-quantity">
+                                <button class="qty-btn minus" onclick="decreaseQuantity()">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" class="qty-input" value="1" min="1" max="9" 
+                                       onchange="updateQuantity(this.value)" id="quantity-input">
+                                <button class="qty-btn plus" onclick="increaseQuantity()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="price" id="product-price">R$ 105,73</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-divider"></div>
+                    
+                    <div class="summary-calculations">
+                        <div class="calculation-row">
+                            <span>Subtotal</span>
+                            <span id="subtotal">R$ 105,73</span>
+                        </div>
+                        
+                        <div class="calculation-row">
+                            <span>Frete</span>
+                            <span id="shipping-cost">-</span>
+                        </div>
+                        
+                        <div class="calculation-row total">
+                            <strong>Total</strong>
+                            <strong id="total-amount">R$ 105,73</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-divider mobile-only"></div>
+                    
+                    <div class="security-info mobile-only">
+                        <div class="security-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Compra 100% segura</span>
+                        </div>
+                        <div class="security-item">
+                            <i class="fas fa-truck"></i>
+                            <span>Entrega garantida</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ÁREA DOS FORMULÁRIOS -->
+            <div class="forms-section">
+                <!-- FORMULÁRIO 1: DADOS PESSOAIS -->
+                <form id="identification-form" class="checkout-form active" data-step="1">
+<div class="form-header">
+                        <h2><i class="fas fa-user-circle"></i> Seus Dados</h2>
+                        <p>Informe seus dados para continuar</p>
+                    </div>
+                    
+                    <div class="form-body">
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="customer-name"><i class="fas fa-user"></i> Nome Completo *</label>
+                                <input type="text" id="customer-name" 
+                                       placeholder="Digite seu nome completo" required>
+                                <div class="error-message" id="name-error"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customer-email"><i class="fas fa-envelope"></i> E-mail *</label>
+                                <input type="email" id="customer-email" 
+                                       placeholder="seu@email.com" required>
+                                <div class="error-message" id="email-error"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customer-phone"><i class="fas fa-phone"></i> Telefone *</label>
+                                <input type="tel" id="customer-phone" 
+                                       placeholder="(11) 99999-9999" required>
+                                <div class="error-message" id="phone-error"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customer-cpf"><i class="fas fa-id-card"></i> CPF *</label>
+                                <input type="text" id="customer-cpf" 
+                                       placeholder="000.000.000-00" required>
+                                <div class="error-message" id="cpf-error"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-footer">
+                            <button type="button" class="btn btn-primary" onclick="nextStep()">
+                                Continuar
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- FORMULÁRIO 2: ENDEREÇO (SEM FRETE AQUI) -->
+                <form id="delivery-form" class="checkout-form hidden" data-step="2">
+<div class="form-header">
+                        <h2><i class="fas fa-map-marker-alt"></i> Endereço de Entrega</h2>
+                        <p>Onde vamos entregar seu pedido?</p>
+                    </div>
+                    
+                    <div class="form-body">
+                        <div class="cep-section">
+                            <div class="form-group">
+                                <label for="zip-code"><i class="fas fa-map-marker-alt"></i> CEP *</label>
+                                <div class="input-with-button">
+                                    <input type="text" id="zip-code" 
+                                           placeholder="00000-000" required>
+                                    <button type="button" class="btn btn-secondary" onclick="buscarCEP()">
+                                        <i class="fas fa-search"></i> Buscar
+                                    </button>
+                                </div>
+                                <div class="error-message" id="cep-error"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="address-street"><i class="fas fa-road"></i> Endereço *</label>
+                                <input type="text" id="address-street" 
+                                       placeholder="Rua, Avenida, etc." required>
+                                <div class="error-message" id="street-error"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="address-number"><i class="fas fa-home"></i> Número *</label>
+                                <input type="text" id="address-number" 
+                                       placeholder="123" required>
+                                <div class="error-message" id="number-error"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="address-complement"><i class="fas fa-building"></i> Complemento</label>
+                                <input type="text" id="address-complement" 
+                                       placeholder="Apto, Bloco, etc.">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="address-neighborhood"><i class="fas fa-map"></i> Bairro *</label>
+                                <input type="text" id="address-neighborhood" required>
+                                <div class="error-message" id="neighborhood-error"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="address-city"><i class="fas fa-city"></i> Cidade *</label>
+                                <input type="text" id="address-city" required>
+                                <div class="error-message" id="city-error"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="address-state"><i class="fas fa-flag"></i> Estado *</label>
+                                <select id="address-state" required>
+                                    <option value="">Selecione</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="CE">Ceará</option>
+                                </select>
+                                <div class="error-message" id="state-error"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-footer">
+                            <button type="button" class="btn btn-back" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep()">
+                                Continuar
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- FORMULÁRIO 3: FRETE (PASSO SEPARADO) -->
+                <form id="shipping-form" class="checkout-form hidden" data-step="3">
+                    <div class="form-header">
+                        <h2><i class="fas fa-truck"></i> Escolha o Frete</h2>
+                        <p>Selecione a melhor opção de entrega</p>
+                    </div>
+                    
+                    <div class="form-body">
+                        <div class="shipping-options" id="shipping-options">
+                            <!-- JadLog -->
+                            <div class="shipping-option selected" data-shipping="jadlog" onclick="selectShipping('jadlog')">
+                                <div class="shipping-badge">Mais rápido</div>
+                                <div class="shipping-info">
+                                    <h4>JadLog</h4>
+                                    <div class="shipping-details">
+                                        <div class="shipping-price">R$21,64</div>
+                                        <div class="shipping-time">2 a 3 dias úteis</div>
+                                    </div>
+                                </div>
+                                <div class="shipping-radio">
+                                    <input type="radio" name="shipping-method" value="jadlog" checked>
+                                </div>
+                            </div>
+                            
+                            <!-- Sedex -->
+                            <div class="shipping-option" data-shipping="sedex" onclick="selectShipping('sedex')">
+                                <div class="shipping-info">
+                                    <h4>Sedex</h4>
+                                    <div class="shipping-details">
+                                        <div class="shipping-price">R$15,87</div>
+                                        <div class="shipping-time">5 a 7 dias úteis</div>
+                                    </div>
+                                </div>
+                                <div class="shipping-radio">
+                                    <input type="radio" name="shipping-method" value="sedex">
+                                </div>
+                            </div>
+                            
+                            <!-- PAC -->
+                            <div class="shipping-option" data-shipping="pac" onclick="selectShipping('pac')">
+                                <div class="shipping-info">
+                                    <h4>PAC</h4>
+                                    <div class="shipping-details">
+                                        <div class="shipping-price free">Grátis</div>
+                                        <div class="shipping-time">14 a 21 dias úteis</div>
+                                    </div>
+                                </div>
+                                <div class="shipping-radio">
+                                    <input type="radio" name="shipping-method" value="pac">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-footer">
+                            <button type="button" class="btn btn-back" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep()">
+                                Continuar
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- FORMULÁRIO 4: PAGAMENTO PIX -->
+                <div id="payment-form" class="checkout-form hidden" data-step="4">
+<div class="form-header">
+                        <h2><i class="fas fa-qrcode"></i> Pagamento PIX</h2>
+                        <p>Finalize com pagamento instantâneo</p>
+                    </div>
+                    
+                    <div class="form-body">
+                        <div class="pix-payment-section" id="pix-payment-section">
+                            <div class="pix-instructions">
+                                <h3>Como pagar com PIX</h3>
+                                <p>Escaneie o QR Code abaixo ou copie o código PIX</p>
+                                
+                                <div class="pix-steps">
+                                    <div class="pix-step">
+                                        <div class="pix-step-number">1</div>
+                                        <div class="pix-step-text">Abra o app do seu banco</div>
+                                    </div>
+                                    <div class="pix-step">
+                                        <div class="pix-step-number">2</div>
+                                        <div class="pix-step-text">Escolha "Pagar com PIX"</div>
+                                    </div>
+                                    <div class="pix-step">
+                                        <div class="pix-step-number">3</div>
+                                        <div class="pix-step-text">Aponte para o QR Code</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Loading enquanto gera PIX -->
+                            <div id="pix-loading" class="pix-instructions">
+                                <div class="loading-spinner"></div>
+                                <p>Gerando seu PIX real...</p>
+                            </div>
+                            
+                            <!-- Conteúdo PIX gerado -->
+                            <div id="pix-content" class="hidden">
+                                <div class="qrcode-container">
+                                    <div id="qrcode-canvas"></div>
+                                </div>
+                                
+                                <div class="pix-copy-info">
+                                    <div class="pix-key-label">Código PIX (Copie e cole):</div>
+                                    <div class="pix-key-value" id="pix-key-value">Gerando código PIX...</div>
+                                    <button class="btn-copy-pix" onclick="copyPixCode()">
+                                        <i class="fas fa-copy"></i> Copiar Código PIX
+                                    </button>
+                                </div>
+                                
+                                <p style="font-size: 12px; margin-top: 15px; color: #666;">
+                                    <i class="fas fa-clock"></i> O pagamento é processado instantaneamente.
+                                </p>
+                                
+                                <div class="form-footer">
+                                    <button type="button" class="btn btn-back" onclick="prevStep()">
+                                        <i class="fas fa-arrow-left"></i>
+                                        Voltar
+                                    </button>
+                                    <button type="button" class="btn btn-success" id="btn-paid" onclick="checkPaymentStatus()">
+                                        <i class="fas fa-check"></i>
+                                        Já Paguei
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- MENSAGEM DE SUCESSO -->
+                <div class="success-message hidden" id="success-message" data-step="5">
+<i class="fas fa-check-circle"></i>
+                    <h3>Pedido Confirmado!</h3>
+                    <p>Seu pagamento foi aprovado com sucesso.</p>
+                    <p>Em breve enviaremos um email para <strong id="customer-email-confirm"></strong> com informações do pedido em até 72 horas.</p>
+                    <div class="order-id" id="order-id"></div>
+                    <p>Obrigado por comprar conosco! 😊</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER MOBILE -->
+    <footer class="checkout-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="payment-methods-footer">
+                    <span>Pagamentos:</span>
+                    <div class="payment-icons">
+                        <i class="fas fa-qrcode" title="PIX"></i>
+                    </div>
+                </div>
+                <div class="copyright">
+                    © 2026 TikTok Shop<br>
+                    <small style="color: #999; font-size: 11px;">Ambiente seguro para compras</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    /* ================= CONFIG ================= */
+    const API_URL = '/api.php';
+    let statusInterval = null;
+    let purchaseAlreadySent = false;
+    let currentOrderId = null;
+
+    /* ================= VARIÁVEIS GLOBAIS ================= */
+    let currentStep = 1;
+    const totalSteps = 4;
+    const productPrice = 105.73;
+    let quantity = 1;
+    let selectedShipping = 'jadlog';
+    const shippingPrices = {
+        jadlog: 21.64,
+        sedex: 15.87,
+        pac: 0
+    };
+
+    /* ================= HELPERS ================= */
+    function formatPhoneE164(phone) {
+        if (!phone) return null;
+        const clean = phone.replace(/\D/g, '');
+        if (clean.startsWith('55')) return '+' + clean;
+        return '+55' + clean;
+    }
+
+    /* ================= IDENTIFY ================= */
+    function identifyUser() {
+        const email = document.getElementById('customer-email')?.value || '';
+        const phone = document.getElementById('customer-phone')?.value || '';
+
+        if (typeof ttq !== 'undefined') {
+            ttq.identify({
+                email: email.trim().toLowerCase() || undefined,
+                phone_number: formatPhoneE164(phone) || undefined,
+                external_id: currentOrderId
+            });
+        }
+    }
+
+    /* ================= PURCHASE ================= */
+    function firePurchaseOnce(valor) {
+        if (purchaseAlreadySent) return;
+
+        if (typeof ttq !== 'undefined') {
+            ttq.track('Purchase', {
+                contents: [{
+                    content_id: 'ps5_slim',
+                    content_type: 'product',
+                    quantity: quantity,
+                    price: productPrice
+                }],
+                value: valor,
+                currency: 'BRL',
+                event_id: currentOrderId
+            });
+        }
+
+        purchaseAlreadySent = true;
+    }
+
+    /* ================= CHECK STATUS AUTOMÁTICO ================= */
+    async function checkPaymentStatus() {
+        try {
+            if (!currentOrderId) return;
+            
+            const res = await fetch(`${API_URL}?pedido_id=${currentOrderId}`);
+            const data = await res.json();
+
+            if (data.success && data.status === 'paid') {
+                clearInterval(statusInterval);
+                firePurchaseOnce(parseFloat(data.valor));
+                showPaymentSuccess();
+            }
+        } catch (e) {
+            console.error('Erro ao consultar status');
+        }
+    }
+
+    /* ================= CHECK STATUS MANUAL ================= */
+    async function checkPaymentStatusManual() {
+        const btn = document.getElementById('btn-paid');
+        const originalText = btn.innerHTML;
+        
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
+        btn.disabled = true;
+        
+        try {
+            if (!currentOrderId) {
+                showToast('Pedido não encontrado');
+                return;
+            }
+            
+            const res = await fetch(`${API_URL}?pedido_id=${currentOrderId}`);
+            const data = await res.json();
+            
+            if (!data.success) {
+                showToast('Erro ao verificar pagamento: ' + data.error);
+            } else if (data.status === 'paid') {
+                clearInterval(statusInterval);
+                firePurchaseOnce(parseFloat(data.valor));
+                showPaymentSuccess();
+            } else {
+                showToast('Você ainda não pagou. O QR Code ainda está válido.');
+            }
+        } catch (e) {
+            console.error('Erro ao verificar status:', e);
+            showToast('Erro ao verificar pagamento. Tente novamente.');
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+
+    /* ================= NAVEGAÇÃO ================= */
+    function nextStep() {
+        if (currentStep === 1) {
+            const nome = document.getElementById('customer-name').value.trim();
+            const email = document.getElementById('customer-email').value.trim();
+            const cpf = document.getElementById('customer-cpf').value;
+            const telefone = document.getElementById('customer-phone').value;
+
+            if (nome.split(' ').length < 2) { showToast('Nome completo obrigatório.'); return; }
+            if (!validarEmail(email)) { showToast('E-mail inválido!'); return; }
+            if (!validarCPF(cpf)) { showToast('CPF inválido!'); return; }
+            if (telefone.replace(/\D/g, '').length < 10) { showToast('Telefone inválido!'); return; }
+        }
+
+        if (currentStep === 2) {
+            const cep = document.getElementById('zip-code').value.trim();
+            const street = document.getElementById('address-street').value.trim();
+            const number = document.getElementById('address-number').value.trim();
+            const neighborhood = document.getElementById('address-neighborhood').value.trim();
+            const city = document.getElementById('address-city').value.trim();
+            const state = document.getElementById('address-state').value.trim();
+            
+            const cepDigits = cep.replace(/\D/g, '');
+            if (!cep || cepDigits.length !== 8) { showToast('CEP inválido!'); return; }
+            if (!street) { showToast('Endereço é obrigatório'); return; }
+            if (!number) { showToast('Número é obrigatório'); return; }
+            if (!neighborhood) { showToast('Bairro é obrigatório'); return; }
+            if (!city) { showToast('Cidade é obrigatório'); return; }
+            if (!state) { showToast('Estado é obrigatório'); return; }
+        }
+
+        if (currentStep < totalSteps) {
+            currentStep++;
+            updateStepDisplay();
+            scrollToTop();
+            vibrate();
+
+            // Gera PIX somente se ainda não existir
+            if (currentStep === 4 && !currentOrderId) {
+                setTimeout(() => generatePIX(), 300);
+            }
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 1) {
+            currentStep--;
+            updateStepDisplay();
+            scrollToTop();
+            vibrate();
+
+            // Parar verificação automática se voltar do passo 4
+            if (statusInterval) { clearInterval(statusInterval); statusInterval = null; }
+        }
+    }
+
+        /* ================= VALIDAÇÕES ================= */
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/[^\d]+/g, '');
+            if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+            let add = 0;
+            for (let i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+            let rev = 11 - (add % 11);
+            if (rev === 10 || rev === 11) rev = 0;
+            if (rev !== parseInt(cpf.charAt(9))) return false;
+            add = 0;
+            for (let i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+            rev = 11 - (add % 11);
+            if (rev === 10 || rev === 11) rev = 0;
+            return rev === parseInt(cpf.charAt(10));
+        }
+
+        function validarEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        /* ================= MÁSCARAS ================= */
+        function applyMasks() {
+            // Máscara para CPF
+            const cpfInput = document.getElementById('customer-cpf');
+            if (cpfInput) {
+                cpfInput.addEventListener('input', function(e) {
+                    let v = e.target.value.replace(/\D/g, '');
+                    if (v.length > 11) v = v.slice(0, 11);
+                    v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                    v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                    v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                    e.target.value = v;
+                });
+            }
+            
+            // Máscara para telefone
+            const phoneInput = document.getElementById('customer-phone');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    let v = e.target.value.replace(/\D/g, '');
+                    if (v.length > 11) v = v.slice(0, 11);
+                    if (v.length > 10) {
+                        v = v.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                    } else if (v.length > 5) {
+                        v = v.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+                    } else if (v.length > 2) {
+                        v = v.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+                    } else if (v.length > 0) {
+                        v = '(' + v;
+                    }
+                    e.target.value = v;
+                });
+            }
+            
+            // Máscara para CEP
+            const cepInput = document.getElementById('zip-code');
+            if (cepInput) {
+                cepInput.addEventListener('input', function(e) {
+                    let v = e.target.value.replace(/\D/g, '');
+                    if (v.length > 8) v = v.slice(0, 8);
+                    v = v.replace(/^(\d{5})(\d)/, '$1-$2');
+                    e.target.value = v;
+                });
+            }
+        }
+
+        /* ================= NAVEGAÇÃO ================= */
+        function nextStep() {
+            if (currentStep === 1) {
+                const nome = document.getElementById('customer-name').value.trim();
+                const email = document.getElementById('customer-email').value.trim();
+                const cpf = document.getElementById('customer-cpf').value;
+                const telefone = document.getElementById('customer-phone').value;
+
+                if (nome.split(' ').length < 2) { 
+                    showToast('Nome completo obrigatório.'); 
+                    return; 
+                }
+                if (!validarEmail(email)) { 
+                    showToast('E-mail inválido!'); 
+                    return; 
+                }
+                if (!validarCPF(cpf)) { 
+                    showToast('CPF inválido!'); 
+                    return; 
+                }
+                if (telefone.replace(/\D/g, '').length < 10) { 
+                    showToast('Telefone inválido!'); 
+                    return; 
+                }
+            }
+            
+            if (currentStep === 2) {
+                const cep = document.getElementById('zip-code').value.trim();
+                const street = document.getElementById('address-street').value.trim();
+                const number = document.getElementById('address-number').value.trim();
+                const neighborhood = document.getElementById('address-neighborhood').value.trim();
+                const city = document.getElementById('address-city').value.trim();
+                const state = document.getElementById('address-state').value.trim();
+                
+                const cepDigits = cep.replace(/\D/g, '');
+                if (!cep || cepDigits.length !== 8) {
+                    showToast('CEP inválido!');
+                    return;
+                }
+                
+                if (!street) {
+                    showToast('Endereço é obrigatório');
+                    return;
+                }
+                
+                if (!number) {
+                    showToast('Número é obrigatório');
+                    return;
+                }
+                
+                if (!neighborhood) {
+                    showToast('Bairro é obrigatório');
+                    return;
+                }
+                
+                if (!city) {
+                    showToast('Cidade é obrigatório');
+                    return;
+                }
+                
+                if (!state) {
+                    showToast('Estado é obrigatório');
+                    return;
+                }
+            }
+            
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStepDisplay();
+                scrollToTop();
+                vibrate();
+                
+                // Se for para o passo 4, gerar o PIX
+                if (currentStep === 4) {
+                    setTimeout(() => {
+                        generatePIX();
+                    }, 300);
+                }
+            }
+        }
+        
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+                scrollToTop();
+                vibrate();
+                
+                // Parar verificação automática se voltar do passo 4
+                if (statusInterval) {
+                    clearInterval(statusInterval);
+                    statusInterval = null;
+                }
+            }
+        }
+        
+        function updateStepDisplay() {
+            // Atualizar steps
+            document.querySelectorAll('.step').forEach((step, index) => {
+                const stepNumber = index + 1;
+                
+                if (stepNumber === currentStep) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else if (stepNumber < currentStep) {
+                    step.classList.remove('active');
+                    step.classList.add('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+            
+            // Atualizar barra de progresso
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('step-progress-bar').style.width = `${progress}%`;
+            
+            // Mostrar/ocultar forms
+            document.querySelectorAll('.checkout-form').forEach(form => {
+                if (parseInt(form.dataset.step) === currentStep) {
+                    form.classList.remove('hidden');
+                    form.classList.add('active');
+                } else {
+                    form.classList.add('hidden');
+                    form.classList.remove('active');
+                }
+            });
+            
+            // Ocultar mensagem de sucesso se não for o passo final
+            if (currentStep !== 5) {
+                document.getElementById('success-message').classList.add('hidden');
+            }
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 50, behavior: 'smooth' });
+        }
+        
+        function vibrate() {
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        /* ================= CEP ================= */
+        async function buscarCEP() {
+            const cepInput = document.getElementById('zip-code');
+            const cep = cepInput.value.replace(/\D/g, '');
+            
+            if (cep.length !== 8) {
+                showToast('CEP inválido!');
+                return;
+            }
+            
+            try {
+                const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await res.json();
+                if (!data.erro) {
+                    document.getElementById('address-street').value = data.logradouro || '';
+                    document.getElementById('address-neighborhood').value = data.bairro || '';
+                    document.getElementById('address-city').value = data.localidade || '';
+                    document.getElementById('address-state').value = data.uf || '';
+                    
+                    setTimeout(() => {
+                        document.getElementById('address-number').focus();
+                    }, 300);
+                } else {
+                    showToast('CEP não encontrado!');
+                }
+            } catch (e) {
+                showToast('Erro ao buscar CEP');
+            }
+        }
+
+        /* ================= FRETE ================= */
+        function selectShipping(method) {
+            selectedShipping = method;
+            vibrate();
+            
+            document.querySelectorAll('.shipping-option').forEach(option => {
+                option.classList.remove('selected');
+                if (option.dataset.shipping === method) {
+                    option.classList.add('selected');
+                    option.querySelector('input[type="radio"]').checked = true;
+                }
+            });
+            
+            updateOrderSummary();
+        }
+
+        /* ================= CARRINHO ================= */
+        function increaseQuantity() {
+            if (quantity < 9) {
+                quantity++;
+                updateQuantityInput();
+                updateOrderSummary();
+                vibrate();
+            } else {
+                showToast('Limite de 9 unidades!');
+            }
+        }
+        
+        function decreaseQuantity() {
+            if (quantity > 1) {
+                quantity--;
+                updateQuantityInput();
+                updateOrderSummary();
+                vibrate();
+            }
+        }
+        
+        function updateQuantity(value) {
+            const newQuantity = parseInt(value);
+            if (!isNaN(newQuantity) && newQuantity >= 1 && newQuantity <= 9) {
+                quantity = newQuantity;
+                updateOrderSummary();
+            } else {
+                showToast('Quantidade inválida!');
+                updateQuantityInput();
+            }
+        }
+        
+        function updateQuantityInput() {
+            const qtyInput = document.getElementById('quantity-input');
+            if (qtyInput) {
+                qtyInput.value = quantity;
+            }
+        }
+        
+        function updateOrderSummary() {
+            const subtotal = productPrice * quantity;
+            const shippingCost = shippingPrices[selectedShipping];
+            const total = subtotal + shippingCost;
+            
+            const formatCurrency = (value) => {
+                return 'R$ ' + value.toFixed(2).replace('.', ',');
+            };
+            
+            document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('total-amount').textContent = formatCurrency(total);
+            document.getElementById('product-price').textContent = formatCurrency(productPrice);
+            
+            const shippingElement = document.getElementById('shipping-cost');
+            if (shippingCost === 0) {
+                shippingElement.textContent = 'Grátis';
+                shippingElement.className = 'free';
+            } else {
+                shippingElement.textContent = formatCurrency(shippingCost);
+                shippingElement.className = '';
+            }
+            
+            const itemsCount = document.getElementById('items-count');
+            itemsCount.textContent = `${quantity} ${quantity === 1 ? 'item' : 'itens'}`;
+            
+            itemsCount.classList.add('pulse');
+            setTimeout(() => {
+                itemsCount.classList.remove('pulse');
+            }, 1000);
+        }
+
+        /* ================= PIX ================= */
+        async function generatePIX() {
+            try {
+                currentOrderId = 'ORDER-' + Date.now();
+                document.getElementById('pix-loading').classList.remove('hidden');
+                document.getElementById('pix-content').classList.add('hidden');
+                
+                const valor = (productPrice * quantity + shippingPrices[selectedShipping]).toFixed(2);
+                const data = {
+                    nome: document.getElementById('customer-name').value,
+                    cpf: document.getElementById('customer-cpf').value.replace(/\D/g, ''),
+                    email: document.getElementById('customer-email').value.trim(),
+                    phone: document.getElementById('customer-phone').value,
+                    valor: valor,
+                    pedido_id: currentOrderId
+                };
+
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                
+                if (result.success) {
+                    document.getElementById('pix-key-value').textContent = result.pixkey;
+                    const qrContainer = document.getElementById('qrcode-canvas');
+                    qrContainer.innerHTML = '';
+                    if (result.qrcode) {
+                        const img = document.createElement('img');
+                        img.src = result.qrcode;
+                        img.style.width = '220px';
+                        img.style.height = '220px';
+                        qrContainer.appendChild(img);
+                    } else {
+                        new QRCode(qrContainer, { text: result.pixkey, width: 220, height: 220 });
+                    }
+                    document.getElementById('pix-loading').classList.add('hidden');
+                    document.getElementById('pix-content').classList.remove('hidden');
+                    startAutoStatusCheck(currentOrderId);
+                } else {
+                    showToast('Erro ao gerar PIX');
+                }
+            } catch (e) { 
+                console.error(e); 
+                showToast('Erro de conexão ao gerar PIX');
+            }
+        }
+
+        /* ================= COPIAR PIX ================= */
+        function copyPixCode() {
+            const pixKey = document.getElementById('pix-key-value').textContent;
+            if (!pixKey || pixKey === 'Gerando código PIX...') {
+                showToast('Gerando código PIX... Aguarde.');
+                return;
+            }
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = pixKey;
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showToast('Código PIX copiado!');
+                
+                // Feedback visual
+                const copyBtn = document.querySelector('.btn-copy-pix');
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                copyBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                    copyBtn.style.background = '';
+                }, 2000);
+            } catch (err) {
+                showToast('Erro ao copiar');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        /* ================= VERIFICAR PAGAMENTO MANUAL ================= */
+        async function checkPaymentStatus() {
+            const btn = document.getElementById('btn-paid');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
+            btn.disabled = true;
+            
+            try {
+                if (!currentOrderId) {
+                    showToast('Pedido não encontrado');
+                    return;
+                }
+                
+                const res = await fetch(`${API_URL}?pedido_id=${currentOrderId}`);
+                const data = await res.json();
+                
+                if (!data.success) {
+                    showToast('Erro ao verificar pagamento: ' + data.error);
+                } else if (data.status === 'paid') {
+                    clearInterval(statusInterval);
+                    firePurchaseOnce(parseFloat(data.valor));
+                    showPaymentSuccess();
+                } else {
+                    showToast('Você ainda não pagou. O QR Code ainda está válido.');
+                }
+            } catch (e) {
+                console.error('Erro ao verificar status:', e);
+                showToast('Erro ao verificar pagamento. Tente novamente.');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        /* ================= SUCESSO ================= */
+        function showPaymentSuccess() {
+            document.getElementById('payment-form').classList.add('hidden');
+            document.getElementById('success-message').classList.remove('hidden');
+            
+            document.getElementById('customer-email-confirm').textContent = document.getElementById('customer-email').value;
+            document.getElementById('order-id').textContent = `Pedido: ${currentOrderId}`;
+
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.add('completed');
+                step.classList.remove('active');
+            });
+            window.scrollTo(0,0);
+            
+            showToast('🎉 Pagamento confirmado com sucesso!');
+        }
+
+        /* ================= TOAST ================= */
+        function showToast(message) {
+            const existingToast = document.querySelector('.toast-mobile');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-mobile';
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <i class="fas fa-info-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        /* ================= INICIALIZAÇÃO ================= */
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aplicar máscaras
+            applyMasks();
+            
+            // Atualizar resumo inicial
+            updateOrderSummary();
+            
+            // Configurar eventos de teclado
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const focused = document.activeElement;
+                    if (focused && focused.type !== 'textarea' && focused.type !== 'button') {
+                        nextStep();
+                    }
+                }
+            });
+            
+            // Touch events para melhor UX
+            document.querySelectorAll('.btn, .shipping-option, .qty-btn').forEach(btn => {
+                btn.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.8';
+                });
+                
+                btn.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+            
+            // Foco automático no primeiro campo
+            setTimeout(() => {
+                const firstInput = document.querySelector('.checkout-form.active input');
+                if (firstInput) {
+                    firstInput.focus();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
